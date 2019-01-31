@@ -1,10 +1,14 @@
 package app
 
 import (
+	h "basic/cobra/utils"
+
+	e "basic/cobra/entity"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
-
+	"net/http"
+	"os"
 )
 
 
@@ -23,7 +27,9 @@ func (s *Server) Run(){
 	app := r.Group("/sa")
 	{
 		app.GET("/check", GetHealthCheck)
+		app.GET("/info",GetInfo)
 	}
+
 	err := r.Run(":"+"8888")
 	if err != nil{
 		panic(err)
@@ -44,4 +50,25 @@ func NewCobraCommand() *cobra.Command{
 
 func GetHealthCheck(c *gin.Context){
 	fmt.Println("request")
+}
+
+type ServerInfo struct {
+	Hostname string `json:"hostname"`
+	LocalIp string  `json:"localIp"`
+}
+
+
+func GetInfo(c *gin.Context){
+	host, err := os.Hostname()
+	if err != nil {
+		fmt.Printf("%s", err)
+	} else {
+		fmt.Printf("%s", host)
+	}
+
+	rep := &ServerInfo{
+		Hostname: host,
+		LocalIp: "",
+	}
+	h.JSONR(c,http.StatusOK,e.SuccessMsg,rep)
 }
