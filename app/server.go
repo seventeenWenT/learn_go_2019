@@ -1,14 +1,18 @@
 package app
 
 import (
-	h "basic/cobra/utils"
-
-	e "basic/cobra/entity"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/spf13/cobra"
 	"net/http"
 	"os"
+
+	h "cobra/utils"
+
+	e "cobra/entity"
+
+	"github.com/gin-gonic/gin"
+	"github.com/spf13/cobra"
+
+
 )
 
 
